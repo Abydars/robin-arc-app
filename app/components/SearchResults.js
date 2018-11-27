@@ -52,7 +52,7 @@ export default class SearchResults extends Component<Props> {
                                 cats += ", ";
                         });
 
-                        return (<View style={styles.productDiv}>
+                        return (<View key={item.id} style={styles.productDiv}>
                             <Image
                             style={styles.image}
                             source={(item.post_image == false) ? require('../img/no_image.jpg') : {uri: item.post_image}}

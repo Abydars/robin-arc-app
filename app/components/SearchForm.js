@@ -11,7 +11,8 @@ import {
     Button,
     FlatList,
     Image,
-    Alert
+    Alert,
+    ScrollView
 } from 'react-native';
 
 export default class SearchForm extends Component<Props> {
@@ -20,6 +21,9 @@ export default class SearchForm extends Component<Props> {
     };
    state = {year: '', make: '', model: '', qualifier: '', makes: [], models: [], qualifiers: []}
    updateYear = (year) => {
+      this.setState({
+        makes: ['Loading...']
+      });
       fetch('http://app.go-performance.ca/wp-admin/admin-ajax.php?action=get_data_makes&yr='+year)
       .then((response) => response.json())
       .then((result)=>{
@@ -30,6 +34,9 @@ export default class SearchForm extends Component<Props> {
       this.setState({ year: year })
    }
    updateMake = (make) => {
+         this.setState({
+            models: ['Loading...']
+         });
          fetch('http://app.go-performance.ca/wp-admin/admin-ajax.php?action=get_data_models&make='+make+'&yr='+this.state.year)
          .then((response) => response.json())
          .then((result)=>{
@@ -41,6 +48,9 @@ export default class SearchForm extends Component<Props> {
       }
 
    updateModel = (model) => {
+            this.setState({
+                qualifiers: ['Loading...']
+            });
             fetch('http://app.go-performance.ca/wp-admin/admin-ajax.php?action=get_data_qualifiers&make='+this.state.make+'&yr='+this.state.year+'&model='+model)
             .then((response) => response.json())
             .then((result)=>{
@@ -73,7 +83,7 @@ export default class SearchForm extends Component<Props> {
     const {makes, models, qualifiers} = this.state;
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
             <Image
                 style={styles.image}
                 source={require('../img/logo.png')}
@@ -117,7 +127,7 @@ export default class SearchForm extends Component<Props> {
                 {qualifiers.map((m, i) => <Picker.Item key={i} label = {m} value = {m} />)}
             </Picker>
             <TouchableOpacity style={styles.button} onPress={this.onPressSearch.bind(this)}><Text style={styles.button_text}>SEARCH</Text></TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -126,9 +136,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#dedede',
-    alignSelf: 'stretch',
     width: '100%'
   },
   picker: {
@@ -159,8 +167,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 300,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    height: 100,
+    width: 360,
+    marginBottom: 50
   },
 });

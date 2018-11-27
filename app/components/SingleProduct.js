@@ -13,6 +13,7 @@ import {
     Image,
     ScrollView
 } from 'react-native';
+import HTMLView from 'react-native-htmlview';
 
 export default class SingleProduct extends Component<Props> {
     static navigationOptions = ({ navigation }) => ({
@@ -39,10 +40,10 @@ export default class SingleProduct extends Component<Props> {
             <Text style={styles.title}>{post_title}</Text>
             <Text style={styles.category}>CATEGORY: {cats}</Text>
             <Text style={styles.sku}>SKU: {(post_sku == '') ? 'N/A' : post_sku}</Text>
-            <Text style={styles.category}>Variations: </Text>
-            <Text style={styles.category}></Text>
             <Text style={styles.description}>DESCRIPTION:</Text>
-            <Text style={styles.content}>{post_content}</Text>
+            <HTMLView
+                 value={post_content}
+            />
         </View>
       </ScrollView>
     );
