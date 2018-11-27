@@ -10,7 +10,8 @@ import {
     Label,
     Button,
     FlatList,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 
 export default class SingleProduct extends Component<Props> {
@@ -19,7 +20,7 @@ export default class SingleProduct extends Component<Props> {
     });
 
   render() {
-  const {post_title, post_sku, post_image, post_category, post_content}=this.props.navigation.state.params;
+  const {post_title, post_sku, post_image, post_category, post_content, post_variations}=this.props.navigation.state.params;
     let cats = "";
 
                             post_category.map((c, i) => {
@@ -29,26 +30,33 @@ export default class SingleProduct extends Component<Props> {
                                     cats += ", ";
                             });
     return (
-      <View style={styles.container}>
-        <Image
-        style={styles.image}
-        source={(post_image == false) ? require('../img/no_image.jpg') : {uri: post_image}}
-        />
-        <Text style={styles.title}>{post_title}</Text>
-        <Text style={styles.category}>CATEGORY: {cats}</Text>
-        <Text style={styles.sku}>SKU: {(post_sku == '') ? 'N/A' : post_sku}</Text>
-        <Text style={styles.description}>DESCRIPTION:</Text>
-        <Text style={styles.content}>{post_content}</Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View>
+            <Image
+            style={styles.image}
+            source={(post_image == false) ? require('../img/no_image.jpg') : {uri: post_image}}
+            />
+            <Text style={styles.title}>{post_title}</Text>
+            <Text style={styles.category}>CATEGORY: {cats}</Text>
+            <Text style={styles.sku}>SKU: {(post_sku == '') ? 'N/A' : post_sku}</Text>
+            <Text style={styles.category}>Variations: </Text>
+            <Text style={styles.category}></Text>
+            <Text style={styles.description}>DESCRIPTION:</Text>
+            <Text style={styles.content}>{post_content}</Text>
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     padding: 20,
-    flex: 1,
-    width: '100%',
+    //flex: 1,
+    //justifyContent: 'center',
+    backgroundColor: '#dedede',
+    //alignSelf: 'stretch',
+    //width: '100%'
   },
   title: {
     marginBottom : 10,
